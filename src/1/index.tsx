@@ -1,33 +1,58 @@
 // Style
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent } from "react";
+import { object, string } from "yup"; // Import Yup
+import { useFormik } from "formik"; // Import Formik
 import "./index.scss";
 
 const Task1: FunctionComponent = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const validationSchema = object({
+    email: string()
+      .email("Invalid email format")
+      .matches(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/, "Invalid email format")
+      .required("Email is required"),
+    password: string()
+      .min(6, "Password must be at least 6 characters")
+      .required("Password is required"),
+  });
 
-  const onSubmit = () => {
-    // If you want to do something with form submit
-
-    alert(`Email: ${email} \nPassword: ${password}`);
-  };
+  const formik = useFormik({
+    initialValues: { email: "", password: "" },
+    validationSchema,
+    onSubmit: (values) => {
+      alert(`Email: ${values.email} \nPassword: ${values.password}`);
+    },
+  });
 
   return (
     <div id="task-1">
-      <form onSubmit={onSubmit}>
+      <form onSubmit={formik.handleSubmit}>
         <label>Email</label>
         <input
+          id="login-email-input"
           name="email"
-          onChange={(event) => setEmail(event.currentTarget.value)}
-          value={email}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.email}
+          placeholder="Examle@domain.com"
         />
+        {formik.touched.email && formik.errors.email && (
+          <div className="error-message">{formik.errors.email}</div> // Added class for styling
+        )}
+
         <label>Password</label>
         <input
+          id="login-password-input"
           name="password"
-          onChange={(event) => setPassword(event.currentTarget.value)}
-          value={password}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.password}
+          placeholder="Password"
         />
-        <button>Login</button>
+        {formik.touched.password && formik.errors.password && (
+          <div className="error-message">{formik.errors.password}</div> // Added class for styling
+        )}
+
+        <button type="submit">Login</button>
       </form>
     </div>
   );

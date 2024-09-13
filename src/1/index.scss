@@ -1,4 +1,4 @@
-@import "./_variables";
+@import "../_variables";
 
 #task-1 {
   display: flex;
@@ -23,7 +23,7 @@
     input {
       width: 100%;
       padding: 0.5rem;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5em;
       border: 1px solid $border-color;
       border-radius: 4px;
       transition: border-color 0.3s;
@@ -41,6 +41,7 @@
     button {
       width: 100%;
       padding: 0.5rem;
+      margin-top: 0.5rem;
       background-color: $primary-color;
       color: white;
       border: none;
@@ -53,4 +54,11 @@
       }
     }
   }
+}
+
+.error-message {
+  color: red;
+  font-size: 0.875em;
+  margin-top: 0.25em;
+  margin-bottom: 0.5em;
 }

@@ -12,11 +12,23 @@ import Item from "./Item";
  *
  * and remove the ListProps interface
  */
+interface Result {
+  id: number;
+  title: string;
+}
 
-interface ListProps {}
+interface ListProps {
+  results: Result[];
+}
 
-const List: FunctionComponent<ListProps> = (props) => {
-  return <div>#List goes here#</div>;
+const List: FunctionComponent<ListProps> = ({ results }: ListProps) => {
+  return (
+    <ul>
+      {results.map((result) => (
+        <li key={result.id}>{result.title}</li>
+      ))}
+    </ul>
+  );
 };
 
 export default List;

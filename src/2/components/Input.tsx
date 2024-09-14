@@ -10,11 +10,19 @@ import { FunctionComponent } from "react";
  * and remove the InputProps interface
  */
 
-interface InputProps {}
+interface InputProps {
+  query: string;
+  setQuery: React.Dispatch<React.SetStateAction<string>>;
+}
 
-const Input: FunctionComponent<InputProps> = (props) => {
+const Input: FunctionComponent<InputProps> = ({ query, setQuery }) => {
   return (
-    <div>#Input goes here#</div>
+    <input
+      type="text"
+      placeholder="Search for posts..."
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+    />
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Todo } from "./types";
 import "./index.scss";
 
@@ -6,6 +6,7 @@ import "./index.scss";
 import "./index.scss";
 import TodoList from "./components/ToDoList";
 import TodoForm from "./components/ToDoForm";
+import useDebounce from "../utils/useDebounce";
 
 // Components
 /*
@@ -17,8 +18,7 @@ const Task3: React.FunctionComponent = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [filteredTodos, setFilteredTodos] = useState<Todo[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-
-  const todosPerPage = 5;
+  const [debouncedQuery] = useDebounce(searchTerm);
 
   const addTodo = (todo: Todo) => {
     setTodos([todo, ...todos]);
@@ -36,14 +36,16 @@ const Task3: React.FunctionComponent = () => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
-  const searchTodo = (searchTerm: string) => {
-    if (searchTerm !== "") setFilteredTodos([]);
-    setSearchTerm(searchTerm);
+  useEffect(() => {
+    if (!debouncedQuery) {
+      setFilteredTodos([]); // Clear results if the query is empty
+      return;
+    }
     const searchResult = todos.filter((todo) =>
-      todo.text.toLowerCase().includes(searchTerm.toLowerCase())
+      todo.text.toLowerCase().includes(debouncedQuery.toLowerCase())
     );
     setFilteredTodos(searchResult);
-  };
+  }, [debouncedQuery, todos]);
 
   const doneTodos = useMemo(() => {
     if (searchTerm !== "")
@@ -57,50 +59,32 @@ const Task3: React.FunctionComponent = () => {
     else return todos.filter((todo) => !todo.completed);
   }, [todos, filteredTodos, searchTerm]);
 
-  console.log(filteredTodos, "filtered");
-
-  // const paginatedTodos = pendingTodos.slice(
-  //   currentPage * todosPerPage,
-  //   (currentPage + 1) * todosPerPage
-  // );
-
-  // const handlePageChange = ({ selected }: { selected: number }) => {
-  //   setCurrentPage(selected);
-  // };
-
   return (
     <div id="task-3">
-      <div className="app">
-        <h1>Todo App</h1>
-        <TodoForm addTodo={addTodo} />
+      <h1>Todo App</h1>
+      <TodoForm addTodo={addTodo} />
 
-        {/* Search Input */}
-        <input
-          type="text"
-          placeholder="Search todos..."
-          value={searchTerm}
-          onChange={(e) => searchTodo(e.target.value)}
-          className="search-input"
-        />
-        <h2>Pending Todos</h2>
-        <TodoList
-          todos={pendingTodos}
-          toggleComplete={toggleComplete}
-          deleteTodo={deleteTodo}
-        />
+      {/* Search Input */}
+      <input
+        type="text"
+        placeholder="Search todos..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="search-input"
+      />
+      <h2>Pending Todos</h2>
+      <TodoList
+        todos={pendingTodos}
+        toggleComplete={toggleComplete}
+        deleteTodo={deleteTodo}
+      />
 
-        {/* <Pagination
-        pageCount={Math.ceil(pendingTodos.length / todosPerPage)}
-        onPageChange={handlePageChange}
-      /> */}
-
-        <h2>Completed Todos</h2>
-        <TodoList
-          todos={doneTodos}
-          toggleComplete={toggleComplete}
-          deleteTodo={deleteTodo}
-        />
-      </div>
+      <h2>Completed Todos</h2>
+      <TodoList
+        todos={doneTodos}
+        toggleComplete={toggleComplete}
+        deleteTodo={deleteTodo}
+      />
     </div>
   );
 };

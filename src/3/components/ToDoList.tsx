@@ -13,7 +13,7 @@ const TodoList: React.FunctionComponent<TodoListProps> = ({
   deleteTodo,
 }) => {
   return (
-    <div>
+    <div id="todo-list">
       {todos.map((todo) => (
         <div
           key={todo.id}
@@ -24,7 +24,7 @@ const TodoList: React.FunctionComponent<TodoListProps> = ({
             checked={todo.completed}
             onChange={() => toggleComplete(todo.id)}
           />
-          <span>{todo.text}</span>
+          <div className="content">{todo.text}</div>
           <button onClick={() => deleteTodo(todo.id)}>Delete</button>
         </div>
       ))}

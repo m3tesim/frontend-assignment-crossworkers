@@ -12,7 +12,7 @@ const TodoForm: React.FunctionComponent<TodoFormProps> = ({ addTodo }) => {
     <Formik
       initialValues={{ text: "" }}
       validationSchema={Yup.object({
-        text: Yup.string().required("Todo is required"),
+        text: Yup.string().max(100, "Max characters is 100"),
       })}
       onSubmit={(values, { resetForm }) => {
         addTodo({ id: Date.now(), text: values.text, completed: false });

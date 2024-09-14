@@ -20,7 +20,7 @@ interface ListProps {
 
 const List: FunctionComponent<ListProps> = ({ results }) => {
   return (
-    <ul>
+    <ul className="list">
       {results.map((result) => (
         <Item data={result} />
       ))}

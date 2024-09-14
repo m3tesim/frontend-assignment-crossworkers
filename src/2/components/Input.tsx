@@ -19,7 +19,9 @@ const Input: FunctionComponent<InputProps> = ({ query, setQuery }) => {
   return (
     <input
       type="text"
-      placeholder="Search for posts..."
+      className="input"
+      id="random-search-input"
+      placeholder="Random Search..."
       value={query}
       onChange={(e) => setQuery(e.target.value)}
     />

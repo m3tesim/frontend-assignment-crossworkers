@@ -1,0 +1,35 @@
+@import "../_variables.scss";
+
+.container {
+  background-color: $background-color;
+  border: 1px solid $border-color;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.input {
+  width: 80%;
+  padding: 0.5rem;
+  margin-bottom: 0.5em;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  transition: border-color 0.3s;
+
+  &:focus {
+    border-color: $border-focus-color;
+    outline: none;
+  }
+
+  &:hover {
+    border-color: $border-focus-color;
+  }
+}
+.list {
+  margin-top: 10px;
+}
+
+ul {
+  & li {
+    list-style-type: square;
+  }
+}

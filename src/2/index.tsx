@@ -4,6 +4,7 @@ import { FunctionComponent, useEffect, useState } from "react";
 import Input from "./components/Input";
 import List from "./components/List";
 import useDebounce from "../utils/useDebounce";
+import "./index.scss";
 
 export interface Result {
   userId: number;
@@ -59,7 +60,7 @@ const Task2: FunctionComponent = () => {
   }, [debouncedQuery]);
 
   return (
-    <div>
+    <div className="container">
       <Input query={query} setQuery={setQuery} />
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}

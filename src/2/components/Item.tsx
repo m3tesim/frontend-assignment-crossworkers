@@ -1,4 +1,5 @@
 import { FunctionComponent } from "react";
+import { Result } from "..";
 
 /*
  * The ItemProps interface defines the types for the components props.
@@ -10,10 +11,12 @@ import { FunctionComponent } from "react";
  * and remove the ItemProps interface
  */
 
-interface ItemProps {}
+interface ItemProps {
+  data: Result;
+}
 
-const Item: FunctionComponent<ItemProps> = (props) => {
-  return <li>#Item goes here#</li>;
+const Item: FunctionComponent<ItemProps> = ({ data }) => {
+  return <li key={data.id}>{data.title}</li>;
 };
 
 export default Item;

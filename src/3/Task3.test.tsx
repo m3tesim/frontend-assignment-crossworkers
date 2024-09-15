@@ -3,7 +3,6 @@ import userEvent from "@testing-library/user-event";
 import TodoForm from "./components/ToDoForm";
 import Task3 from ".";
 import TodoItem from "./components/TodoItem";
-//import TodoItem from "./3/components/TodoItem";
 
 test("renders Todo App title", () => {
   render(<Task3 />); // Moved render here
@@ -18,7 +17,6 @@ describe("TodoForm component", () => {
   test("should call addTodo with correct values on form submit", async () => {
     render(<TodoForm addTodo={mockAddTodo} />);
 
-    // Simulate typing into the input field
     const input = screen.getByPlaceholderText("Add new todo");
     userEvent.type(input, "New Task");
 

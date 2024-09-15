@@ -1,7 +1,8 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import TodoForm from "./components/ToDoForm";
 import Task3 from ".";
+import TodoItem from "./components/TodoItem";
 //import TodoItem from "./3/components/TodoItem";
 
 test("renders Todo App title", () => {
@@ -50,48 +51,48 @@ describe("TodoForm component", () => {
   // });
 });
 
-// test("TodoItem component", () => {
-//   const mockToggleComplete = jest.fn();
-//   const mockDeleteTodo = jest.fn();
+describe("TodoItem component", () => {
+  const mockToggleComplete = jest.fn();
+  const mockDeleteTodo = jest.fn();
 
-//   const todo = {
-//     id: 1,
-//     text: "Test Todo",
-//     completed: false,
-//   };
+  const todo = {
+    id: 1,
+    text: "Test Todo",
+    completed: false,
+  };
 
-//   it("should call toggleComplete when checkbox is clicked", () => {
-//     render(
-//       <TodoItem
-//         todo={todo}
-//         toggleComplete={mockToggleComplete}
-//         deleteTodo={mockDeleteTodo}
-//       />
-//     );
+  test("should call toggleComplete when checkbox is clicked", () => {
+    render(
+      <TodoItem
+        todo={todo}
+        toggleComplete={mockToggleComplete}
+        deleteTodo={mockDeleteTodo}
+      />
+    );
 
-//     const checkbox = screen.getByRole("checkbox");
-//     fireEvent.click(checkbox);
+    const checkbox = screen.getByRole("checkbox");
+    fireEvent.click(checkbox);
 
-//     expect(mockToggleComplete).toHaveBeenCalledTimes(1);
-//     expect(mockToggleComplete).toHaveBeenCalledWith(todo.id);
-//   });
+    expect(mockToggleComplete).toHaveBeenCalledTimes(1);
+    expect(mockToggleComplete).toHaveBeenCalledWith(todo.id);
+  });
 
-//   it("should call deleteTodo when delete button is clicked", () => {
-//     render(
-//       <TodoItem
-//         todo={todo}
-//         toggleComplete={mockToggleComplete}
-//         deleteTodo={mockDeleteTodo}
-//       />
-//     );
+  test("should call deleteTodo when delete button is clicked", () => {
+    render(
+      <TodoItem
+        todo={todo}
+        toggleComplete={mockToggleComplete}
+        deleteTodo={mockDeleteTodo}
+      />
+    );
 
-//     const deleteButton = screen.getByText("Delete");
-//     fireEvent.click(deleteButton);
+    const deleteButton = screen.getByText("Delete");
+    fireEvent.click(deleteButton);
 
-//     expect(mockDeleteTodo).toHaveBeenCalledTimes(1);
-//     expect(mockDeleteTodo).toHaveBeenCalledWith(todo.id);
-//   });
-// });
+    expect(mockDeleteTodo).toHaveBeenCalledTimes(1);
+    expect(mockDeleteTodo).toHaveBeenCalledWith(todo.id);
+  });
+});
 
 // test("searches todos", () => {
 //   render(<Task3 />); // Moved render here

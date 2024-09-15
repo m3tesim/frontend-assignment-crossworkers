@@ -1,5 +1,6 @@
 import React from "react";
 import { Todo } from "../types";
+import TodoItem from "./TodoItem";
 
 interface TodoListProps {
   todos: Todo[];
@@ -15,18 +16,11 @@ const TodoList: React.FunctionComponent<TodoListProps> = ({
   return (
     <div id="todo-list">
       {todos.map((todo) => (
-        <div
-          key={todo.id}
-          className={`todo-item ${todo.completed ? "completed" : ""}`}
-        >
-          <input
-            type="checkbox"
-            checked={todo.completed}
-            onChange={() => toggleComplete(todo.id)}
-          />
-          <div className="content">{todo.text}</div>
-          <button onClick={() => deleteTodo(todo.id)}>Delete</button>
-        </div>
+        <TodoItem
+          todo={todo}
+          toggleComplete={toggleComplete}
+          deleteTodo={deleteTodo}
+        />
       ))}
     </div>
   );

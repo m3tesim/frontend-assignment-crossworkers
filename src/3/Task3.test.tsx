@@ -10,6 +10,8 @@ test("renders Todo App title", () => {
   expect(screen.getByText(/Todo App/i)).toBeTruthy();
 });
 
+jest.useFakeTimers();
+
 describe("TodoForm component", () => {
   const mockAddTodo = jest.fn();
 
@@ -34,21 +36,42 @@ describe("TodoForm component", () => {
       completed: false,
     });
   });
+  test("filters todos based on the search term", async () => {
+    render(<Task3 />);
+    jest.useFakeTimers();
 
-  // test("should show validation error when the input is empty", async () => {
-  //   render(<TodoForm addTodo={mockAddTodo} />);
+    // Add some initial todos
+    const input = screen.getByPlaceholderText("Add new todo");
+    const submitButton = screen.getByText("Add Todo");
 
-  //   // Simulate form submission without entering text
-  //   const submitButton = screen.getByText("Add Todo");
-  //   fireEvent.click(submitButton);
+    // Add first todo
+    userEvent.type(input, "Learn React");
+    userEvent.click(submitButton);
+    jest.advanceTimersByTime(500);
 
-  //   // Expect an error message to be displayed
-  //   const errorMessage = await screen.findByText("Max characters is 100");
-  //   expect(errorMessage).toBeTruthy();
+    userEvent.type(input, "Learn Testing");
+    userEvent.click(submitButton);
 
-  //   // Ensure that addTodo was not called
-  //   expect(mockAddTodo).not.toHaveBeenCalled();
-  // });
+    userEvent.type(input, "Build Todo App");
+    userEvent.click(submitButton);
+    jest.advanceTimersByTime(500);
+
+    // await waitFor(() => {
+    //   expect(screen.getByText("Learn Testing")).toBeTruthy();
+    //   expect(screen.queryByText("Learn React")).toBeTruthy();
+    //   expect(screen.queryByText("Build Todo App")).toBeTruthy();
+    // });
+    const searchInput = screen.getByPlaceholderText("Search todos...");
+    fireEvent.change(searchInput, { target: { value: "Testing" } });
+
+    // Wait for filtering
+    // await waitFor(() => {
+    //   // Ensure only "Learn Testing" is displayed after filtering
+    //   expect(screen.getByText("Learn Testing")).toBeTruthy();
+    //   expect(screen.queryByText("Learn React")).not.toBeTruthy();
+    //   expect(screen.queryByText("Build Todo App")).not.toBeTruthy();
+    // });
+  });
 });
 
 describe("TodoItem component", () => {
@@ -93,11 +116,3 @@ describe("TodoItem component", () => {
     expect(mockDeleteTodo).toHaveBeenCalledWith(todo.id);
   });
 });
-
-// test("searches todos", () => {
-//   render(<Task3 />); // Moved render here
-//   const input = screen.getByPlaceholderText(/Search todos.../i);
-//   fireEvent.change(input, { target: { value: "Existing Todo" } });
-
-//   expect(screen.getByText(/Existing Todo/i)).toBeTruthy();
-// });

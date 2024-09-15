@@ -28,7 +28,7 @@ const Task1: FunctionComponent = () => {
       <form onSubmit={formik.handleSubmit}>
         <label>Email</label>
         <input
-          id="login-email-input"
+          data-testid="login-email-input"
           name="email"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
@@ -41,7 +41,7 @@ const Task1: FunctionComponent = () => {
 
         <label>Password</label>
         <input
-          id="login-password-input"
+          data-testid="login-password-input"
           name="password"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
@@ -52,7 +52,9 @@ const Task1: FunctionComponent = () => {
           <div className="error-message">{formik.errors.password}</div> // Added class for styling
         )}
 
-        <button type="submit">Login</button>
+        <button data-testid="login-btn" type="submit">
+          Login
+        </button>
       </form>
     </div>
   );
